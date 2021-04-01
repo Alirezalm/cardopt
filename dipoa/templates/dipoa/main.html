@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cardOPT</title>
+
+    <link rel="stylesheet" href="{% static 'dipoa/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'dipoa/css/styles.css' %}">
+
+</head>
+<body>
+{% include 'dipoa/login.html' %}
+{% include 'dipoa/salamfile.html' %}
+<div id="app" class="container-fluid">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">cardOPT</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a @click="onHome" class="nav-link active" href="#">Home</a>
+                    <router-link @click="onLogin" class="nav-link" to="/login">Login</router-link>
+                </nav>
+            </div>
+        </header>
+
+        <main role="main" class="inner cover">
+            <div v-if="!loginClicked">
+                <h3 class="cover-heading">cardOPT</h3>
+                <p class="lead">cardOPT is a web application which solves cardinality
+                    cardinality constrained optimization problem efficiently and a distributed manner. To use
+                    the application please login.</p>
+                <p class="lead">
+
+                    <router-link @click="onLogin" class="btn btn-lg btn-secondary" to="/login">Login</router-link>
+                </p>
+            </div>
+                <div v-else>
+                    <router-view ></router-view>
+                </div>
+        </main>
+
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Designed and Implement by Alireza Olama</p>
+            </div>
+        </footer>
+    </div>
+
+
+</div>
+<script src="{% static 'dipoa/js/vue.global.js' %}"></script>
+<script src="{% static 'dipoa/js/vue-router.global.js' %}"></script>
+
+<script src="{% static 'dipoa/js/app.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="{% static 'dipoa/js/bootstrap.js' %}"></script>
+<script src="{% static 'dipoa/js/bootstrap.bundle.js' %}"></script>
+
+
+</body>
+</html>
