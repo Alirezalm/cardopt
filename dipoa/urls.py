@@ -1,7 +1,11 @@
 from django.urls import path
 
-from dipoa.views import home_page
+from dipoa.views import home_page, dashboard
 
+app_name = 'dipoa'
 urlpatterns = [
-    path('', home_page, name='homepage')
+    path('<str:name>', home_page, name='homepage'),
+    path('', home_page, name='homepage'),
+    path('dashboard/', dashboard, name = 'dashboard')
+
 ]
