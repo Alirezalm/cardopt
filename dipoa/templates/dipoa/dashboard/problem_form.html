@@ -1,0 +1,56 @@
+<template id="problem-form" >
+    <div class="card" style="width: 18rem;">
+
+        <div class="card-body">
+            <h5 class="card-title">Create a random scenario</h5>
+            <form>
+                <div class="form-group">
+                    <label for="problemClass">problem class</label>
+                    <select v-model="problemClass" id="problemClass" class="form-control">
+                        <option>Select a problem</option>
+                        <option>distributed sparse logistic regression</option>
+                        <option>distributed sparse portfolio optimization</option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="vars">Number of variables</label>
+                    <input type="number" class="form-control" id="vars" min="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="samples">Number of samples</label>
+                    <input type="number" class="form-control" id="samples" min="1">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="nZeros">Number of non-zeros</label>
+                    <input type="number" class="form-control" id="nZeros" min="1">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="nodes">Number of nodes</label>
+                    <input type="number" class="form-control" id="nodes" min="1">
+                </div>
+
+                <label for="compare">compare to</label>
+                <select v-model="problemClass" id="compare" class="form-control">
+                    <option>Select a solver</option>
+                    <option>bonmin</option>
+                    <option>filmint</option>
+                    <option>shot</option>
+                    <option>knitro</option>
+                    <option>MINLP</option>
+                </select>
+
+                <div class="">
+                    <button type="submit" class="btn btn-primary">optimize</button>
+                     <button type="reset" class="btn btn-secondary">reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</template>
