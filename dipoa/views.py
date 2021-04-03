@@ -38,4 +38,10 @@ def home_page(request, name=None):
 @csrf_exempt
 @login_required
 def dashboard(request):
-    return render(request, 'dipoa/dashboard/dashboard.html')
+    if request.method == 'GET':
+        return render(request, 'dipoa/dashboard/dashboard.html')
+    else:
+        problem_data = json.loads(request.body)
+
+        print(problem_data)
+        return JsonResponse({'status': 1})

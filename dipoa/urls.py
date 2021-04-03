@@ -6,6 +6,6 @@ app_name = 'dipoa'
 urlpatterns = [
     path('<str:name>', home_page, name='homepage'),
     path('', home_page, name='homepage'),
-    path('dashboard/', dashboard, name = 'dashboard')
+    path('cardopt/dashboard', dashboard, name = 'dashboard')
 
 ]

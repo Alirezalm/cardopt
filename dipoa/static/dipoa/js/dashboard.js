@@ -3,7 +3,18 @@ const Problem = {
         delimiters: ['[[', ']]'],
     data(){
         return {
-            problemClass: ""
+            problemData: {}
+        }
+    },
+
+    methods: {
+        onOptimize(){
+            const url = '/cardopt/dashboard'
+            axios.post(url, JSON.stringify(this.problemData)).then(res => {
+                console.log(JSON.stringify(this.problemData))
+                console.log(res.data)
+
+            })
         }
     }
 }
