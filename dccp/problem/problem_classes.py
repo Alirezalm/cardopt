@@ -8,8 +8,11 @@ class LogRegProb(object):
         self.local_response = local_response
 
     def compute_obj_at(self, x):
+        n = x.shape[0]
+        x = x.reshape(n, 1)
         h = self._logistic_func(x)
-        return -self.local_response.T @ log(h) - (1 - self.local_response).T @ log(1 - h)
+        obj_val = -self.local_response.T @ log(h) - (1 - self.local_response).T @ log(1 - h)
+        return obj_val.astype(float)
 
     def compute_grad_at(self, x):
         h = self._logistic_func(x)

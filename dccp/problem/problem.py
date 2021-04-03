@@ -28,12 +28,8 @@ class Problem(object):
             self.problem_instance = LogRegProb(local_dataset=dataset, local_response=response)
             return self
 
-    def solve(self, rank):
-
-        x = rhadmm()
+    def solve(self, comm, mpi_class):
+        binvar = randn(self.nVars, 1)
+        x = rhadmm(self.problem_instance.compute_obj_at, None, None, binvar, comm, self.nVars, self.nZeros, self.nNodes,
+                   mpi_class)
         return 1
-
-
-
-
-
