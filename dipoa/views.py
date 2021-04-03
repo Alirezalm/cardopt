@@ -6,6 +6,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
+from dipoa.problem_api import ProblemAPI
+
 
 @csrf_exempt
 def home_page(request, name=None):
@@ -42,6 +44,8 @@ def dashboard(request):
         return render(request, 'dipoa/dashboard/dashboard.html')
     else:
         problem_data = json.loads(request.body)
+        problem_handler = ProblemAPI(problem_data)
+        problem_handler.create_instance_run()
 
         print(problem_data)
         return JsonResponse({'status': 1})
