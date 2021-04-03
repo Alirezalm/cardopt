@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -44,8 +45,8 @@ def dashboard(request):
         return render(request, 'dipoa/dashboard/dashboard.html')
     else:
         problem_data = json.loads(request.body)
-        problem_handler = ProblemAPI(problem_data)
-        problem_handler.create_instance_run()
+        with open('config.json','w') as jsonfile:
+            json.dump(problem_data, jsonfile)
 
-        print(problem_data)
+        os.system(f"mpirun -n {problem_data['nNodes']} python ./dipoa/problem_api.py")
         return JsonResponse({'status': 1})
