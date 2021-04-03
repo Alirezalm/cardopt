@@ -1,6 +1,7 @@
 from numpy.random import randn
 
 from dccp.problem.problem_classes import LogRegProb
+from dccp.rhadmm.rhadmm import rhadmm
 
 PROBLEM_CLASS = {
     'dslr': 'distributed sparse logistic regression',
@@ -27,7 +28,12 @@ class Problem(object):
             self.problem_instance = LogRegProb(local_dataset=dataset, local_response=response)
             return self
 
-    def solve(self):
+    def solve(self, rank):
 
-        pass
+        x = rhadmm()
+        return 1
+
+
+
+
 

@@ -48,5 +48,6 @@ def dashboard(request):
         with open('config.json','w') as jsonfile:
             json.dump(problem_data, jsonfile)
 
-        os.system(f"mpirun -n {problem_data['nNodes']} python ./dipoa/problem_api.py")
+        # os.system(f"mpirun -n {problem_data['nNodes']} python ./dipoa/main.py")
+        from dipoa import main
         return JsonResponse({'status': 1})
