@@ -1,4 +1,5 @@
-from numpy.random import randn
+from numpy import zeros
+from numpy.random import randn, rand
 
 from dccp.problem.problem_classes import LogRegProb
 from dccp.rhadmm.rhadmm import rhadmm
@@ -18,18 +19,23 @@ class Problem(object):
         self.compareTo = problem_data['compareTo']
         self.nNodes = int(problem_data['nNodes'])
         self.problem_instance = None
+        self.bound = None
 
-    def create_random_problem_instance(self):
+    # should be run before solve
+    def create_random_problem_instance(self, bound):
         if self.name == PROBLEM_CLASS['dslr']:
             dataset = randn(self.nSamples, self.nVars)
             response = randn(self.nSamples, 1)
             response[response >= 0.5] = 1
             response[response < 0.5] = 0
             self.problem_instance = LogRegProb(local_dataset=dataset, local_response=response)
+            self.bound = bound
             return self
 
     def solve(self, comm, mpi_class):
-        binvar = randn(self.nVars, 1)
-        x = rhadmm(self.problem_instance.compute_obj_at, None, None, binvar, comm, self.nVars, self.nZeros, self.nNodes,
-                   mpi_class)
+        binvar = rand(self.nVars, 1)
+        # binvar = zeros((self.nVars, 1))
+        binvar[binvar < 0.5] = 0.0
+        binvar[binvar >= 0.5] = 1.0
+        x = rhadmm(self, bin_var=binvar, comm=comm, mpi_class=mpi_class)
         return 1

@@ -25,7 +25,10 @@ class LogRegProb(object):
 
     def _logistic_func(self, x):
         z = self.local_dataset @ x
-        return 1 / (1 + exp(-z))
+        h = 1 / (1 + exp(-z))
+        h[h == 1] = 1 - 1e-8
+        h[h == 0] = 1e-8
+        return h
 
     def __str__(self):
         return "Logistic regression objective function"

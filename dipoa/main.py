@@ -15,4 +15,4 @@ rank = comm.Get_rank()
 print(data, f"from node {rank}")
 
 problem_handler = ProblemAPI(data)
-problem_handler.create_instance_run(comm, mpi_class=MPI)
+problem_handler.create_instance_run(comm, MPI, 0.1)
