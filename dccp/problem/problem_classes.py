@@ -24,6 +24,7 @@ class LogRegProb(object):
         return self.local_dataset.T @ diagflat(h * (1 - h)) @ self.local_dataset
 
     def _logistic_func(self, x):
+        x = x.reshape(x.shape[0], 1)
         z = self.local_dataset @ x
         h = 1 / (1 + exp(-z))
         h[h == 1] = 1 - 1e-8

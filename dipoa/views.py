@@ -50,4 +50,5 @@ def dashboard(request):
 
         os.system(f"mpiexec -n {problem_data['nNodes']} python ./dipoa/main.py")
         # from dipoa import main
+
         return JsonResponse({'status': 1})

@@ -1,4 +1,4 @@
-<template id="problem-form" >
+<template id="problem-form">
     <div class="card" style="width: 18rem;">
 
         <div class="card-body">
@@ -46,8 +46,12 @@
                 </select>
 
                 <div class="">
-                    <button type="submit" class="btn btn-primary">optimize</button>
-                     <button type="reset" class="btn btn-secondary">reset</button>
+                    <button v-if="!optimizing" id="optim-btn" type="submit" class="btn btn-primary">optimize</button>
+                    <button v-else class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        optimizing
+                    </button>
+                    <button type="reset" class="btn btn-secondary">reset</button>
                 </div>
             </form>
         </div>

@@ -1,8 +1,10 @@
 import json
 
+from django.http import JsonResponse
 from mpi4py import MPI
 
 from dipoa.problem_api import ProblemAPI
+
 
 # entry point of the algorithm, runs in parallel
 with open('config.json') as jsonfile:
@@ -16,3 +18,4 @@ print(data, f"from node {rank}")
 
 problem_handler = ProblemAPI(data)
 problem_handler.create_instance_run(comm, MPI, 0.1)
+
