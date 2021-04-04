@@ -38,4 +38,4 @@ class Problem(object):
         binvar[binvar < 0.5] = 0.0
         binvar[binvar >= 0.5] = 1.0
         x = rhadmm(self, bin_var=binvar, comm=comm, mpi_class=mpi_class)
-        return 1
+        return x

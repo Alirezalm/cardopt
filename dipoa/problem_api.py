@@ -9,6 +9,6 @@ class ProblemAPI(object):
 
     def create_instance_run(self, comm, mpi_class, bound):
         problem = Problem(self.problem_data).create_random_problem_instance(bound)
-        problem.solve(comm, mpi_class)
+        return problem.solve(comm, mpi_class)
 
 
