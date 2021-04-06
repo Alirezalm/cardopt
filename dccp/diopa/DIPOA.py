@@ -23,9 +23,9 @@ def dipoa(problem_instance, comm, mpi_class):
     lower_bound = -upper_bound
     for k in range(max_iter):
         x, fx, gx = rhadmm(problem_instance, bin_var=binvar, comm=comm, mpi_class=mpi_class)  # solves primal problem
-
+        ub = comm.reduce(fx, op=mpi_class.SUM, root=0)
         if rank == 0:
-            upper_bound = min(comm.reduce(fx, op=mpi_class.SUM, root=0), upper_bound)
+            upper_bound = min(ub, upper_bound)
 
             rcv_x = zeros((size, n))
             rcv_gx = zeros((size, n))
