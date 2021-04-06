@@ -61,6 +61,6 @@ def rhadmm(problem, bin_var, comm, mpi_class):
             print(f" k:{k} t: {t} s: {s} rank: {rank}")
         if (t <= eps) & (s <= eps / 2):
             print(f'done: {rank}')
-            return z, problem.problem_instance.compute_obj_at(z), problem.problem_instance.compute_grad_at(z)
+            return z, problem.problem_instance.compute_obj_at(z)[0][0], problem.problem_instance.compute_grad_at(z)
 
     return z,
