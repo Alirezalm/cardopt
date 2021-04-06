@@ -33,9 +33,10 @@ class Problem(object):
             return self
 
     def solve(self, comm, mpi_class):
-        binvar = rand(self.nVars, 1)
-        # binvar = zeros((self.nVars, 1))
-        binvar[binvar < 0.5] = 0.0
-        binvar[binvar >= 0.5] = 1.0
+        # binvar = rand(self.nVars, 1)
+        # binvar[binvar < 0.5] = 0.0
+        # binvar[binvar >= 0.5] = 1.0
+        binvar = zeros((self.nVars, 1))
+
         x = rhadmm(self, bin_var=binvar, comm=comm, mpi_class=mpi_class)
         return x
