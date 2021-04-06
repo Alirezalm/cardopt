@@ -1,6 +1,7 @@
 from numpy import zeros
 from numpy.random import randn, rand
 
+from dccp.diopa.DIPOA import dipoa
 from dccp.problem.problem_classes import LogRegProb
 from dccp.rhadmm.rhadmm import rhadmm
 
@@ -32,11 +33,8 @@ class Problem(object):
             self.bound = bound
             return self
 
-    def solve(self, comm, mpi_class):
-        # binvar = rand(self.nVars, 1)
-        # binvar[binvar < 0.5] = 0.0
-        # binvar[binvar >= 0.5] = 1.0
-        binvar = zeros((self.nVars, 1))
+    def solve(self, comm, mpi_class):  # starts dipoa algorithm
 
-        x = rhadmm(self, bin_var=binvar, comm=comm, mpi_class=mpi_class)
+        x = dipoa(self, comm, mpi_class)
+
         return x

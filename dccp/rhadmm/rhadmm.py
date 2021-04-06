@@ -14,6 +14,7 @@ def create_prime_obj(main_obj, z, y, rho, ):
 
 
 def create_prime_grad(main_grad, z, y, rho):
+
     def prime_grad(x):
         n = x.shape[0]
         x = x.reshape(n, 1)
@@ -23,6 +24,7 @@ def create_prime_grad(main_grad, z, y, rho):
 
 
 def rhadmm(problem, bin_var, comm, mpi_class):
+
     rho = 70
     max_iter = 500
     n = problem.nVars
@@ -59,6 +61,6 @@ def rhadmm(problem, bin_var, comm, mpi_class):
             print(f" k:{k} t: {t} s: {s} rank: {rank}")
         if (t <= eps) & (s <= eps / 2):
             print(f'done: {rank}')
-            return z
+            return z, problem.problem_instance.compute_obj_at(z), problem.problem_instance.compute_grad_at(z)
 
-    return z
+    return z,

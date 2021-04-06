@@ -10,11 +10,11 @@ const Problem = {
 
     methods: {
         onOptimize(){
-            this.optimizing = true
+            // this.optimizing = true
             const url = '/cardopt/dashboard'
             axios.post(url, JSON.stringify(this.problemData)).then(res => {
                 console.log(JSON.stringify(this.problemData))
-                this.optimizing = false
+                // this.optimizing = false
                 console.log(res.data)
 
             })
