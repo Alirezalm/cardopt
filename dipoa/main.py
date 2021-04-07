@@ -17,7 +17,7 @@ print(data, f"from node {rank}")
 
 problem_handler = ProblemAPI(data)
 
-x = problem_handler.create_instance_run(comm, MPI, 0.1)
+x = problem_handler.create_instance_run(comm, MPI, 0.9)
 x = [item[0] for item in x]
 if rank == 0:
     ans = {

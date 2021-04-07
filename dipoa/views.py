@@ -54,5 +54,5 @@ def dashboard(request):
                 solution = json.load(jsonfile)
 
         # from dipoa import main
-
+        # solution = {}
         return JsonResponse(solution)
