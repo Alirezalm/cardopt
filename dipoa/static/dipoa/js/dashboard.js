@@ -7,8 +7,17 @@ const Problem = {
             optimizing: false
         }
     },
-
+        mounted() {
+            this.problemData['name'] = 'distributed sparse logistic regression'
+            this.problemData['nVars'] = 10
+            this.problemData['nSamples'] = 1000
+            this.problemData['nZeros'] = 5
+            this.problemData['nNodes'] = 4
+            this.problemData['compareTo'] = 'shot'
+        },
     methods: {
+
+
         onOptimize(){
             // this.optimizing = true
             const url = '/cardopt/dashboard'
