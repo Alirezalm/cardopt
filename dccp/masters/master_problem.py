@@ -34,6 +34,7 @@ def solve_master(problem_instance, cut_manager):
         model.addConstr(-M * delta[i] <= x[i], name = f'b2{i}')
 
     model.addConstr(delta.sum() <= kappa, name = 'd')
+    model.setParam('OutputFlag', 0)
     model.optimize()
 
     return model.objval, delta.x.reshape(n,1),

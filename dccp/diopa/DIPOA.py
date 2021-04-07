@@ -11,9 +11,9 @@ from dccp.rhadmm.rhadmm import rhadmm
 def dipoa(problem_instance, comm, mpi_class):
     rank = comm.Get_rank()
     size = comm.Get_size()
-    max_iter = 2
+    max_iter = 20
     n = problem_instance.nVars
-    binvar = ones((problem_instance.nVars, 1))  # initial binary
+    binvar = zeros((problem_instance.nVars, 1))  # initial binary
 
     cut_manager = CutStoreGen()
 
@@ -25,8 +25,9 @@ def dipoa(problem_instance, comm, mpi_class):
     for k in range(max_iter):
         x, fx, gx = rhadmm(problem_instance, bin_var = binvar, comm = comm,
                            mpi_class = mpi_class)  # solves primal problem
-        upper_bound = comm.reduce(fx, op = mpi_class.SUM, root = 0)
+        ub = comm.reduce(fx, op = mpi_class.SUM, root = 0)
         if rank == 0:
+            upper_bound = min(ub, upper_bound)
             rcv_x = zeros((size, n))
             rcv_gx = zeros((size, n))
 
@@ -40,5 +41,5 @@ def dipoa(problem_instance, comm, mpi_class):
                                       rcv_gx[node, :].reshape(n, 1))
 
             lower_bound, binvar = solve_master(problem_instance, cut_manager)
-        print(f"lb: {lower_bound}, ub:{upper_bound}")
+            print(f"lb: {lower_bound}, ub:{upper_bound}")
     return x
