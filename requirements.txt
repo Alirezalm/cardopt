@@ -1,9 +1,5 @@
 asgiref==3.3.1
 Django==3.1.7
-gurobipy==9.1.1
-mpi4py==3.0.3
-numpy==1.20.2
-pkg-resources==0.0.0
 psycopg2==2.8.6
 pytz==2021.1
 scipy==1.6.2
