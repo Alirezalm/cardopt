@@ -1,33 +1,27 @@
 const Problem = {
     template: '#problem-form',
-        delimiters: ['[[', ']]'],
-    data(){
+    delimiters: ['[[', ']]'],
+    data() {
         return {
             problemData: {},
-            optimizing: false
+            optimizing: false,
+            formSaved: false
         }
     },
-        mounted() {
-            this.problemData['name'] = 'distributed sparse logistic regression'
-            this.problemData['nVars'] = 10
-            this.problemData['nSamples'] = 1000
-            this.problemData['nZeros'] = 5
-            this.problemData['nNodes'] = 4
-            this.problemData['compareTo'] = 'shot'
-        },
+    mounted() {
+        this.problemData['name'] = 'distributed sparse logistic regression'
+        this.problemData['nVars'] = 10
+        this.problemData['nSamples'] = 100
+        this.problemData['nZeros'] = 5
+        this.problemData['nNodes'] = 4
+        this.problemData['compareTo'] = 'shot'
+    },
     methods: {
 
-
-        onOptimize(){
-            // this.optimizing = true
-            const url = '/cardopt/dashboard'
-            axios.post(url, JSON.stringify(this.problemData)).then(res => {
-                console.log(JSON.stringify(this.problemData))
-                // this.optimizing = false
-                console.log(res.data)
-
-            })
-        }
+        onSave() {
+            console.log('form saved');
+            this.$emit('form-saved', this.problemData)
+        },
     }
 }
 
@@ -43,16 +37,72 @@ const app = Vue.createApp({
     delimiters: ['[[', ']]'],
     data() {
         return {
-            url: ''
+            url: '',
+            formSaved: false,
+            data: {},
+            solutionData: ''
         }
     },
     methods: {
+        onOptimize() {
+            // this.optimizing = true
+            const url = '/cardopt/dashboard'
+            axios.post(url, JSON.stringify(this.data)).then(res => {
+                console.log(JSON.stringify(this.data))
+                // this.optimizing = false
+                console.log(res.data)
+                this.solutionData = res.data
+                this.plotCharts()
+
+            })
+        },
+        onFormSaved(problemData) {
+            console.log(problemData);
+            this.formSaved = true
+            this.data = problemData
+        },
+
         onSignOut() {
             this.url = 'http://127.0.0.1:8000/logout'
             axios.get(this.url).then((res) => {
                 console.log(res.data)
 
             })
+        },
+        plotCharts() {
+            let ctx = document.getElementById('myChart').getContext('2d')
+            var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: this.solutionData['iter'],
+        datasets: [{
+            label: 'Lower bound',
+            borderColor: 'red',
+            fill:false,
+            data: this.solutionData['lb'],
+
+        },
+            {
+                label: 'Upper bound',
+                data: this.solutionData['ub'],
+                borderColor: 'blue',
+                 fill:false,
+            }
+        ]
+    },
+
+    // Configuration options go here
+    options: {
+        elements: {
+        line: {
+            tension: 0
+        }
+    }
+    }
+});
         }
     }
 })
