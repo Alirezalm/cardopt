@@ -1,6 +1,7 @@
 import json
 import os
 
+import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -43,16 +44,17 @@ def dashboard(request):
     if request.method == 'GET':
         return render(request, 'dipoa/dashboard/dashboard.html')
     else:
+
         problem_data = json.loads(request.body)
         with open('config.json','w') as jsonfile:
             json.dump(problem_data, jsonfile)
 
-        mpi_run = os.system(f"mpiexec -n {problem_data['nNodes']} python ./dipoa/main.py")
-
-        if mpi_run == 0:
-            with open('solution.json') as jsonfile:
-                solution = json.load(jsonfile)
-
+        # mpi_run = os.system(f"mpiexec -n {problem_data['nNodes']} python ./dipoa/main.py")
+        #
+        # if mpi_run == 0:
+        #     with open('solution.json') as jsonfile:
+        #         solution = json.load(jsonfile)
+        solution = requests.post('http://127.0.0.1:5000', data = request.body)
         # from dipoa import main
-        # solution = {}
-        return JsonResponse(solution)
+
+        return JsonResponse(json.loads(solution.text))
