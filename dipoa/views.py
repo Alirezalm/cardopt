@@ -52,16 +52,11 @@ def dashboard(request):
         with open('config.json', 'w') as jsonfile:
             json.dump(problem_data, jsonfile)
 
-        # mpi_run = os.system(f"mpiexec -n {problem_data['nNodes']} python ./dipoa/main.py")
-        #
-        # if mpi_run == 0:
-        #     with open('solution.json') as jsonfile:
-        #         solution = json.load(jsonfile)
         solution = requests.post('http://127.0.0.1:5000', data = request.body)
 
         solution_dict = json.loads(solution.text)
 
-        user = User.objects.get(username = request.user.username)
+        user = User.objects.get(username = request.user.email)
         p = ProblemInstance()
         p.name = problem_data['name']
         p.number_of_features = problem_data['nVars']
