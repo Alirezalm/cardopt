@@ -25,7 +25,7 @@
                 <h3 class="masthead-brand">cardOPT</h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a @click="onHome" class="nav-link active" href="#">Home</a>
-                    <a v-if="loginStatus" class="nav-link active" href="{% url 'dipoa:dashboard' %}">Dashboard</a>
+                    <a v-if="loginStatus" class="nav-link active" href="{% url 'dipoa:dashboard' 'dash' %}">Dashboard</a>
                     <router-link @click="onLogin" v-if="!loginStatus" class="nav-link" to="/login">Login</router-link>
                     <a @click="onLogout" v-else class="nav-link active" href="#home">Logout</a>
                 </nav>

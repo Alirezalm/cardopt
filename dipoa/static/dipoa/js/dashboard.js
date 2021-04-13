@@ -46,9 +46,15 @@ const app = Vue.createApp({
         }
     },
     methods: {
+        onShowResults(){
+            this.url = '/cardopt/app/dashboard/history'
+            axios.get(this.url).then(res=>{
+                console.log(res.data)
+            })
+        },
         onOptimize() {
             this.isOptimizing = true
-            const url = '/cardopt/app/dashboard'
+            const url = '/cardopt/app/dashboard/opt'
             axios.post(url, JSON.stringify(this.data)).then(res => {
                 console.log(JSON.stringify(this.data))
                 this.isOptimizing = false
