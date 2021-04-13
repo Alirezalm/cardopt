@@ -40,20 +40,26 @@ const app = Vue.createApp({
             url: '',
             formSaved: false,
             data: {},
-            solutionData: ''
+            solutionData: '',
+            isOptimizing : false,
+
         }
     },
     methods: {
         onOptimize() {
-            // this.optimizing = true
-            const url = '/cardopt/dashboard'
+            this.isOptimizing = true
+            const url = '/cardopt/app/dashboard'
             axios.post(url, JSON.stringify(this.data)).then(res => {
                 console.log(JSON.stringify(this.data))
-                // this.optimizing = false
+                this.isOptimizing = false
                 console.log(res.data)
+
                 this.solutionData = res.data
+
                 this.plotCharts()
 
+            }).catch(error =>{
+                this.isOptimizing = false
             })
         },
         onFormSaved(problemData) {
@@ -63,7 +69,7 @@ const app = Vue.createApp({
         },
 
         onSignOut() {
-            this.url = 'http://127.0.0.1:8000/logout'
+            this.url = 'http://127.0.0.1:8000/cardopt/logout'
             axios.get(this.url).then((res) => {
                 console.log(res.data)
 

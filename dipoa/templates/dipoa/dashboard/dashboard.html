@@ -82,7 +82,14 @@
                                      data-target="#exampleModal">
                             Add new
                         </router-link>
-                        <button @click="onOptimize" class="btn btn-primary" v-if="formSaved">Optimize</button>
+                        <button v-if="!isOptimizing & formSaved" @click="onOptimize" class="btn btn-primary">OPTIMIZE
+                        </button>
+                        <button v-else-if="isOptimizing" class="btn btn-primary" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                            OPTIMIZING
+                        </button>
+
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog">
@@ -103,9 +110,19 @@
                     </div>
                 </div>
 
-                <div class="mx-auto w-75">
-                    <canvas id="myChart" width="400" height="150"></canvas>
+                <div   class="card mx-auto w-75 my-5">
+                    <div class="card-header">
+                        Plots
+                    </div>
+                    <div  class="card-body">
+                        <div class="chart my-1 mx-auto w-100">
+                            <canvas id="myChart" width="400" height="150"></canvas>
+                        </div>
+
+                    </div>
                 </div>
+
+
             </main>
 
         </div>

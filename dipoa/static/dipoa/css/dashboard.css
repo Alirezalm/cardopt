@@ -105,5 +105,16 @@ body {
 .btn{
   margin-top: 4%;
   margin-left: 2%;
+  background-color: royalblue;
+}
+.btn:hover{
+  margin-top: 4%;
+  margin-left: 2%;
+  background-color: darkblue ;
 }
 
+
+.card {
+  box-shadow:  0 2px 8px gray;
+
+}
