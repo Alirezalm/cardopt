@@ -42,6 +42,7 @@ const app = Vue.createApp({
             data: {},
             solutionData: '',
             isOptimizing : false,
+            history: []
 
         }
     },
@@ -49,7 +50,8 @@ const app = Vue.createApp({
         onShowResults(){
             this.url = '/cardopt/app/dashboard/history'
             axios.get(this.url).then(res=>{
-                console.log(res.data)
+                console.log(res.data['history'])
+                this.history = res.data['history']
             })
         },
         onOptimize() {

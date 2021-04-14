@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -50,9 +51,12 @@ def dashboard(request, name = None):
         if name == 'dash':
             return render(request, 'dipoa/dashboard/dashboard.html')
         elif name == 'history':
-            results = serializers.serialize("json", ProblemInstance.objects.all())
 
-            return JsonResponse({'history': results})
+            results = {'history': []}
+            for problem in ProblemInstance.objects.all()[0:10]:
+                results['history'].append(model_to_dict(problem))
+
+            return JsonResponse(results)
 
     else:
         if name == 'opt':
@@ -63,8 +67,7 @@ def dashboard(request, name = None):
             solution = requests.post('http://127.0.0.1:5000', data = request.body)
 
             solution_dict = json.loads(solution.text)
-
-            user = User.objects.get(username = request.user.email)
+            user = User.objects.get(username = request.user)
             p = ProblemInstance()
             p.name = problem_data['name']
             p.number_of_features = problem_data['nVars']
