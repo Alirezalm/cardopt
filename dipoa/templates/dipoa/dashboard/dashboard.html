@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>cardopt-dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'dipoa/css/dashboard.css' %}">
@@ -39,7 +39,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="">
                                 Problem
-                                <!-- <router-link to="/problem">Problem</router-link> -->
+
                             </a>
                         </li>
                         <li class="nav-item">
@@ -82,14 +82,21 @@
                                      data-target="#exampleModal">
                             Add new
                         </router-link>
-                        <button v-if="!isOptimizing & formSaved" @click="onOptimize" class="btn btn-sm btn-primary">OPTIMIZE
+                        <button v-if="!isOptimizing & formSaved" @click="onOptimize" class="btn btn-sm btn-primary">
+                            OPTIMIZE
                         </button>
                         <button v-else-if="isOptimizing" class="btn btn-primary btn-sm" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="sr-only"></span>
                             OPTIMIZING
                         </button>
-
+                        <div v-if="notify" class="alert alert-success my-4 w-75 shadow" role="alert">
+                            <h6 style="text-align: center"><strong>Optimal solution found</strong></h6>
+                            <p><strong>optimal objective</strong> : [[solutionData.obj]]</p>
+                            <p><strong>optimal gap</strong> : [[solutionData.gap]]</p>
+                            <p><strong>elapsed_time</strong> : [[solutionData.elapsed_time]] seconds</p>
+                            <p><strong>dipoa iterations</strong> : [[solutionData.iter.length]] </p>
+                        </div>
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog">
@@ -123,11 +130,21 @@
                 </div>
                 <div class="card mx-auto w-100 my-5">
                     <div class="card-header">
-                        Previous results
+                        <div class="chart my-1  w-25 btn-group">
+                            <button @click="onShowResults" class="btn btn-primary btn-sm mx-2">last results</button>
+                            <button @click="onClear" class="btn btn-danger bg-danger btn-sm mx-2">clear database
+                            </button>
+
+                        </div>
+                        <div v-if="dbInteraction" class="spinner-border text-primary float-right" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+
                     </div>
                     <div class="card-body">
 
-                        <table v-if="history.length > 0" class="table table-striped table-bordered table-hover table-responsive-md  table-responsive-sm">
+                        <table v-if="history.length > 0"
+                               class="table table-striped table-bordered table-hover table-responsive-md  table-responsive-sm">
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#instance</th>
@@ -137,6 +154,7 @@
                                 <th scope="col">#k</th>
                                 <th scope="col">obj</th>
                                 <th scope="col">gap</th>
+                                <th scope="col">dipoa-time</th>
                                 <th scope="col">status</th>
 
                             </tr>
@@ -148,16 +166,15 @@
                                 <td>[[problem.number_of_features]]</td>
                                 <td>[[problem.number_of_samples]]</td>
                                 <td>[[problem.number_of_nonzeros]]</td>
-                                <td>[[problem.optimal_obj.slice(0,7) ]]</td>
+                                <td>[[problem.optimal_obj ]]</td>
                                 <td>[[problem.relative_gap]]</td>
+                                <td>[[problem.elapsed_time]]</td>
                                 <td><span class="badge badge-success">optimal</span></td>
                             </tr>
 
                             </tbody>
                         </table>
-                        <div class="chart my-1 mx-auto w-100">
-                            <button @click="onShowResults" class="btn btn-primary">Show last results</button>
-                        </div>
+
 
                     </div>
                 </div>

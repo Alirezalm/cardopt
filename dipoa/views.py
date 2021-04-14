@@ -46,18 +46,19 @@ def home_page(request, name = None):
 @csrf_exempt
 @login_required
 def dashboard(request, name = None):
-
     if request.method == 'GET':
         if name == 'dash':
             return render(request, 'dipoa/dashboard/dashboard.html')
         elif name == 'history':
 
             results = {'history': []}
-            for problem in ProblemInstance.objects.all()[0:10]:
+            for problem in ProblemInstance.objects.all().order_by('-id')[0:10]:
                 results['history'].append(model_to_dict(problem))
 
             return JsonResponse(results)
-
+        elif name == 'clear':
+            ProblemInstance.objects.all().delete()
+            return JsonResponse({'status': 1})
     else:
         if name == 'opt':
             problem_data = json.loads(request.body)
@@ -78,6 +79,7 @@ def dashboard(request, name = None):
             p.optimal_obj = solution_dict['obj']
             p.relative_gap = solution_dict['gap']
             p.max_iter = solution_dict['iter']
+            p.elapsed_time = solution_dict['elapsed_time']
             p.save()
             info = ProblemInfo()
             info.creator = user

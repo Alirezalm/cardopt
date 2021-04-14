@@ -42,20 +42,47 @@ const app = Vue.createApp({
             data: {},
             solutionData: '',
             isOptimizing : false,
-            history: []
+            notify: false,
+            history: [],
+            dbInteraction:false
 
         }
     },
     methods: {
+        onClear(){
+            this.url = '/cardopt/app/dashboard/clear'
+            this.dbInteraction = true
+             axios.get(this.url).then(res=>{
+                 console.log(res.data)
+                 this.dbInteraction = false
+                 this.history = []
+             })
+        },
+
         onShowResults(){
             this.url = '/cardopt/app/dashboard/history'
+            this.dbInteraction = true
             axios.get(this.url).then(res=>{
                 console.log(res.data['history'])
-                this.history = res.data['history']
+                this.history = []
+                let id = res.data['history'].length+ 1
+                for (let item of res.data['history']) {
+                    id--
+                    item.id = id
+                    item.optimal_obj = Number( item.optimal_obj).toFixed(5)
+                    item.relative_gap = Number( item.relative_gap).toFixed(5)
+                    item.elapsed_time = Number( item.elapsed_time).toFixed(5)
+                    item.number_of_samples = Number(item.number_of_samples) * Number(item.number_of_cores)
+                    this.history.push(item)
+                    console.log(item)
+                }
+                this.dbInteraction = false
             })
         },
+
         onOptimize() {
             this.isOptimizing = true
+            this.notify = false
             const url = '/cardopt/app/dashboard/opt'
             axios.post(url, JSON.stringify(this.data)).then(res => {
                 console.log(JSON.stringify(this.data))
@@ -63,11 +90,15 @@ const app = Vue.createApp({
                 console.log(res.data)
 
                 this.solutionData = res.data
-
+                this.solutionData.obj = Number(this.solutionData.obj).toFixed(5)
+                this.solutionData.elapsed_time = Number(this.solutionData.elapsed_time).toFixed(5)
+                this.solutionData.gap = Number(this.solutionData.gap).toFixed(5)
+                this.notify = true
                 this.plotCharts()
 
             }).catch(error =>{
                 this.isOptimizing = false
+                this.notify = false
             })
         },
         onFormSaved(problemData) {
