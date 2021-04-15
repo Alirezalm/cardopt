@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from dipoa.models import ProblemInstance, ProblemInfo
-from dipoa.problem_api import ProblemAPI
+
 
 
 @csrf_exempt
