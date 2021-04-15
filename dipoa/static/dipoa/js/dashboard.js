@@ -107,6 +107,8 @@ const app = Vue.createApp({
                     item.relative_gap = Number(item.relative_gap).toFixed(5)
                     item.elapsed_time = Number(item.elapsed_time).toFixed(5)
                     item.number_of_samples = Number(item.number_of_samples) * Number(item.number_of_cores)
+                    item.soc = item.soc.toLowerCase()
+                    item.sfp = item.sfp.toLowerCase()
                     this.history.push(item)
                     console.log(item)
                 }

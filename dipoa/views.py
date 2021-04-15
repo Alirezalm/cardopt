@@ -80,6 +80,8 @@ def dashboard(request, name = None):
             p.relative_gap = solution_dict['gap']
             p.max_iter = solution_dict['iter']
             p.elapsed_time = solution_dict['elapsed_time']
+            p.soc = problem_data['soc']
+            p.sfp = problem_data['sfp']
             p.save()
             info = ProblemInfo()
             info.creator = user

@@ -18,6 +18,8 @@ class ProblemInstance(models.Model):
     relative_gap = models.CharField(max_length = 100, null = True)
     max_iter = models.CharField(max_length = 100, null = True)
     elapsed_time = models.CharField(max_length = 100, null = True)
+    soc = models.CharField(max_length = 10, null = True)
+    sfp = models.CharField(max_length = 10, null = True)
 
 
 class ProblemInfo(models.Model):

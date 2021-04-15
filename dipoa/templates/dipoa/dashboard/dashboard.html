@@ -74,9 +74,9 @@
                         <div v-if="formSaved">
                             <h5 class="card-title">problem data</h5>
                             <ul class="list-group">
-                                 <li class="card-text list-group-item" v-for="(value, key) in data">
-                                <strong>[[key]]:</strong> [[value]]
-                            </li>
+                                <li class="card-text list-group-item" v-for="(value, key) in data">
+                                    <strong>[[key]]:</strong> [[value]]
+                                </li>
                             </ul>
 
                         </div>
@@ -154,6 +154,8 @@
                                 <th scope="col">#n</th>
                                 <th scope="col">#m</th>
                                 <th scope="col">#k</th>
+                                <th scope="col">SFP</th>
+                                <th scope="col">SOC</th>
                                 <th scope="col">obj</th>
                                 <th scope="col">gap</th>
                                 <th scope="col">dipoa-time</th>
@@ -168,6 +170,8 @@
                                 <td>[[problem.number_of_features]]</td>
                                 <td>[[problem.number_of_samples]]</td>
                                 <td>[[problem.number_of_nonzeros]]</td>
+                                <td> <span class="badge badge-dark">[[problem.sfp]]</span></td>
+                                <td> <span class="badge badge-dark">[[problem.soc]]</span></td>
                                 <td>[[problem.optimal_obj ]]</td>
                                 <td>[[problem.relative_gap]]</td>
                                 <td>[[problem.elapsed_time]]</td>
