@@ -14,7 +14,7 @@ const SignIn = {
 
 
         loginSubmit() {
-            this.url = 'http://127.0.0.1:8000/cardopt/login'
+            this.url = '/cardopt/login'
             axios.post(this.url, JSON.stringify(this.loginInfo)).then(res => {
                 if (res.data.status) {
                     this.loggedIn = true
@@ -62,7 +62,7 @@ const app = Vue.createApp({
             this.loginClicked = false
         },
         onLogout() {
-            this.url = 'http://127.0.0.1:8000/cardopt/logout'
+            this.url = '/cardopt/logout'
             axios.get(this.url).then((res) => {
                 if (res.data.status) {
                     this.loginStatus = false
@@ -74,7 +74,7 @@ const app = Vue.createApp({
            this.loginStatus = status
         },
         isLogin() {
-            this.url = 'http://127.0.0.1:8000/cardopt/islogin'
+            this.url = '/cardopt/islogin'
             axios.get(this.url).then(res => {
 
                 if (res.data.status) {
