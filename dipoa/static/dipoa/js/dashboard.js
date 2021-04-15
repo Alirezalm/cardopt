@@ -9,18 +9,52 @@ const Problem = {
         }
     },
     mounted() {
+        console.log('mounted')
         this.problemData['name'] = 'distributed sparse logistic regression'
         this.problemData['nVars'] = 10
         this.problemData['nSamples'] = 100
         this.problemData['nZeros'] = 5
         this.problemData['nNodes'] = 4
         this.problemData['compareTo'] = 'shot'
+        this.problemData['soc'] = false
+        this.problemData['sfp'] = true
     },
     methods: {
 
         onSave() {
             console.log('form saved');
+            if (this.problemData.sfp) {
+                this.problemData.sfp = 1
+
+            } else {
+                this.problemData.sfp = 0
+
+            }
+            if (this.problemData.soc) {
+
+                this.problemData.soc = 1
+            } else {
+
+                this.problemData.soc = 0
+            }
+
             this.$emit('form-saved', this.problemData)
+
+            if (this.problemData.sfp) {
+                this.problemData.sfp = true
+
+            } else {
+                this.problemData.sfp = false
+
+            }
+            if (this.problemData.soc) {
+
+                this.problemData.soc = true
+            } else {
+
+                this.problemData.soc = false
+            }
+
         },
     }
 }
@@ -41,37 +75,37 @@ const app = Vue.createApp({
             formSaved: false,
             data: {},
             solutionData: '',
-            isOptimizing : false,
+            isOptimizing: false,
             notify: false,
             history: [],
-            dbInteraction:false
+            dbInteraction: false
 
         }
     },
     methods: {
-        onClear(){
+        onClear() {
             this.url = '/cardopt/app/dashboard/clear'
             this.dbInteraction = true
-             axios.get(this.url).then(res=>{
-                 console.log(res.data)
-                 this.dbInteraction = false
-                 this.history = []
-             })
+            axios.get(this.url).then(res => {
+                console.log(res.data)
+                this.dbInteraction = false
+                this.history = []
+            })
         },
 
-        onShowResults(){
+        onShowResults() {
             this.url = '/cardopt/app/dashboard/history'
             this.dbInteraction = true
-            axios.get(this.url).then(res=>{
+            axios.get(this.url).then(res => {
                 console.log(res.data['history'])
                 this.history = []
-                let id = res.data['history'].length+ 1
+                let id = res.data['history'].length + 1
                 for (let item of res.data['history']) {
                     id--
                     item.id = id
-                    item.optimal_obj = Number( item.optimal_obj).toFixed(5)
-                    item.relative_gap = Number( item.relative_gap).toFixed(5)
-                    item.elapsed_time = Number( item.elapsed_time).toFixed(5)
+                    item.optimal_obj = Number(item.optimal_obj).toFixed(5)
+                    item.relative_gap = Number(item.relative_gap).toFixed(5)
+                    item.elapsed_time = Number(item.elapsed_time).toFixed(5)
                     item.number_of_samples = Number(item.number_of_samples) * Number(item.number_of_cores)
                     this.history.push(item)
                     console.log(item)
@@ -83,6 +117,7 @@ const app = Vue.createApp({
         onOptimize() {
             this.isOptimizing = true
             this.notify = false
+
             const url = '/cardopt/app/dashboard/opt'
             axios.post(url, JSON.stringify(this.data)).then(res => {
                 console.log(JSON.stringify(this.data))
@@ -96,7 +131,7 @@ const app = Vue.createApp({
                 this.notify = true
                 this.plotCharts()
 
-            }).catch(error =>{
+            }).catch(error => {
                 this.isOptimizing = false
                 this.notify = false
             })
@@ -117,37 +152,37 @@ const app = Vue.createApp({
         plotCharts() {
             let ctx = document.getElementById('myChart').getContext('2d')
             var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
+                // The type of chart we want to create
+                type: 'line',
 
-    // The data for our dataset
-    data: {
-        labels: this.solutionData['iter'],
-        datasets: [{
-            label: 'Lower bound',
-            borderColor: 'red',
-            fill:false,
-            data: this.solutionData['lb'],
+                // The data for our dataset
+                data: {
+                    labels: this.solutionData['iter'],
+                    datasets: [{
+                        label: 'Lower bound',
+                        borderColor: 'red',
+                        fill: false,
+                        data: this.solutionData['lb'],
 
-        },
-            {
-                label: 'Upper bound',
-                data: this.solutionData['ub'],
-                borderColor: 'blue',
-                 fill:false,
-            }
-        ]
-    },
+                    },
+                        {
+                            label: 'Upper bound',
+                            data: this.solutionData['ub'],
+                            borderColor: 'blue',
+                            fill: false,
+                        }
+                    ]
+                },
 
-    // Configuration options go here
-    options: {
-        elements: {
-        line: {
-            tension: 0
-        }
-    }
-    }
-});
+                // Configuration options go here
+                options: {
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            });
         }
     }
 })

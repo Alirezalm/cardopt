@@ -36,6 +36,10 @@
                 <input v-model="problemData.sfp" type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">feasibility pump</label>
             </div>
+            <div class="form-group form-check">
+                <input v-model="problemData.soc" type="checkbox" class="form-check-input" id="soc">
+                <label class="form-check-label" for="soc">second order cuts</label>
+            </div>
             <label for="compare">compare to</label>
             <select v-model="problemData.compareTo" id="compare" class="form-control">
                 <option>Select a solver</option>
