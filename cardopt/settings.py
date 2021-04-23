@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'cardopt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cardoptdb',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '94114046',
-        'HOST': 'localhost',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
