@@ -6,8 +6,8 @@
                 <label for="problemClass">problem class</label>
                 <select v-model="problemData.name" id="problemClass" class="form-control">
                     <option>Select a problem</option>
-                    <option>distributed sparse logistic regression</option>
-                    <option>distributed sparse portfolio optimization</option>
+                    <option>dslr</option>
+                    <option>dsqcqp</option>
                 </select>
 
             </div>
@@ -16,7 +16,7 @@
                 <input v-model="problemData.nVars" type="number" class="form-control" id="vars" min="1">
             </div>
 
-            <div class="form-group">
+            <div  v-if="problemData.name === 'dslr' "  class="form-group">
                 <label for="samples">Number of samples (local) </label>
                 <input v-model="problemData.nSamples" type="number" class="form-control" id="samples" min="1">
             </div>

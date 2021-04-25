@@ -9,8 +9,7 @@ const Problem = {
         }
     },
     mounted() {
-        console.log('mounted')
-        this.problemData['name'] = 'distributed sparse logistic regression'
+        this.problemData['name'] = 'dslr'
         this.problemData['nVars'] = 10
         this.problemData['nSamples'] = 100
         this.problemData['nZeros'] = 5
@@ -37,7 +36,9 @@ const Problem = {
 
                 this.problemData.soc = 0
             }
-
+            if (this.problemData.name === 'dsqcqp'){
+                delete this.problemData.nSamples
+            }
             this.$emit('form-saved', this.problemData)
 
             if (this.problemData.sfp) {

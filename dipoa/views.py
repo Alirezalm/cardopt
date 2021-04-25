@@ -14,7 +14,6 @@ from django.views.decorators.csrf import csrf_exempt
 from dipoa.models import ProblemInstance, ProblemInfo
 
 
-
 @csrf_exempt
 def home_page(request, name = None):
     if request.method == 'GET':
@@ -72,7 +71,10 @@ def dashboard(request, name = None):
             p = ProblemInstance()
             p.name = problem_data['name']
             p.number_of_features = problem_data['nVars']
-            p.number_of_samples = problem_data['nSamples']
+            if problem_data['name'] == 'dslr':
+                p.number_of_samples = problem_data['nSamples']
+            else:
+                p.number_of_samples = 0
             p.number_of_constraints = problem_data['nVars']
             p.number_of_nonzeros = problem_data['nZeros']
             p.number_of_cores = problem_data['nNodes']
