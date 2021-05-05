@@ -8,7 +8,7 @@ PROBLEM_CLASSES = (
 
 
 class ProblemInstance(models.Model):
-    name = models.CharField(max_length=100, choices=PROBLEM_CLASSES)
+    name = models.CharField(max_length = 100, choices = PROBLEM_CLASSES)
     number_of_features = models.IntegerField()
     number_of_samples = models.IntegerField()
     number_of_constraints = models.IntegerField()
@@ -23,6 +23,14 @@ class ProblemInstance(models.Model):
 
 
 class ProblemInfo(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    problem_info = models.ForeignKey(ProblemInstance, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
+    creator = models.ForeignKey(User, on_delete = models.CASCADE)
+    problem_info = models.ForeignKey(ProblemInstance, on_delete = models.CASCADE)
+    created = models.DateTimeField(auto_now_add = True)
+
+
+class GamsSolverInfo(models.Model):
+    instance = models.ForeignKey(ProblemInstance, on_delete = models.CASCADE)
+    solver_name = models.CharField(max_length = 100, default = '')
+    gap = models.CharField(max_length = 100, default = 0)
+    time = models.CharField(max_length = 100, default = 0)
+    status = models.CharField(max_length = 100, default = 0)

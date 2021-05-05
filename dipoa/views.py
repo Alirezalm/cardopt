@@ -11,7 +11,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from dipoa.models import ProblemInstance, ProblemInfo
+from dipoa.models import ProblemInstance, ProblemInfo, GamsSolverInfo
 
 
 @csrf_exempt
@@ -50,13 +50,21 @@ def dashboard(request, name = None):
             return render(request, 'dipoa/dashboard/dashboard.html')
         elif name == 'history':
 
-            results = {'history': []}
+            results = {
+                'history': [],
+                'gams_history': []
+            }
             for problem in ProblemInstance.objects.all().order_by('-id')[0:10]:
                 results['history'].append(model_to_dict(problem))
 
+            for solution in GamsSolverInfo.objects.all().order_by('-id')[0:10]:
+                results['gams_history'].append(model_to_dict(solution))
+
             return JsonResponse(results)
+
         elif name == 'clear':
             ProblemInstance.objects.all().delete()
+            GamsSolverInfo.objects.all().delete()
             return JsonResponse({'status': 1})
     else:
         if name == 'opt':
@@ -64,6 +72,7 @@ def dashboard(request, name = None):
             with open('config.json', 'w') as jsonfile:
                 json.dump(problem_data, jsonfile)
 
+            # solution = requests.post('http://150.162.14.7:5000', data = request.body)
             solution = requests.post('http://127.0.0.1:5000', data = request.body)
 
             solution_dict = json.loads(solution.text)
@@ -89,4 +98,24 @@ def dashboard(request, name = None):
             info.creator = user
             info.problem_info = p
             info.save()
+
+            user_request = json.loads(request.body)
+            solvers = user_request['solvers']
+
+            for solver in solvers:
+                user_request['selected_solver'] = solver
+
+                gams_solution = requests.post('http://127.0.0.1:5050', data = json.dumps(user_request))
+
+                gams_sol = json.loads(gams_solution.text)
+
+                gams_info = GamsSolverInfo()
+
+                gams_info.instance = p
+                gams_info.gap = gams_sol['gap']
+                gams_info.solver_name = gams_sol['solver']
+                gams_info.time = gams_sol['time']
+                gams_info.status = gams_sol['status']
+                gams_info.save()
+
             return JsonResponse(solution_dict)

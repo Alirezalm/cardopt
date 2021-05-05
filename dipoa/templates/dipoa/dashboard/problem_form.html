@@ -41,13 +41,13 @@
                 <label class="form-check-label" for="soc">second order cuts</label>
             </div>
             <label for="compare">compare to</label>
-            <select v-model="problemData.compareTo" id="compare" class="form-control">
+            <select multiple v-model="solvers" id="compare" class="form-control">
                 <option>Select a solver</option>
                 <option>bonmin</option>
-                <option>filmint</option>
-                <option>shot</option>
+                <option>bonminh</option>
                 <option>knitro</option>
-                <option>MINLP</option>
+                <option>alphaecp</option>
+                <option>dicopt</option>
             </select>
             <div class="modal-footer">
                 <button type="reset" class="btn btn-secondary">Reset</button>

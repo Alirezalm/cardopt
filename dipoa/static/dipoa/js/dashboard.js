@@ -3,6 +3,7 @@ const Problem = {
     delimiters: ['[[', ']]'],
     data() {
         return {
+            solvers: [],
             problemData: {},
             optimizing: false,
             formSaved: false
@@ -14,9 +15,9 @@ const Problem = {
         this.problemData['nSamples'] = 100
         this.problemData['nZeros'] = 5
         this.problemData['nNodes'] = 4
-        this.problemData['compareTo'] = 'shot'
         this.problemData['soc'] = false
         this.problemData['sfp'] = true
+        this.problemData['solvers'] = []
     },
     methods: {
 
@@ -39,6 +40,7 @@ const Problem = {
             if (this.problemData.name === 'dsqcqp'){
                 delete this.problemData.nSamples
             }
+            this.problemData['solvers'] = this.solvers
             this.$emit('form-saved', this.problemData)
 
             if (this.problemData.sfp) {
@@ -79,6 +81,7 @@ const app = Vue.createApp({
             isOptimizing: false,
             notify: false,
             history: [],
+            gamsInfo: [],
             dbInteraction: false
 
         }
@@ -98,12 +101,15 @@ const app = Vue.createApp({
             this.url = '/cardopt/app/dashboard/history'
             this.dbInteraction = true
             axios.get(this.url).then(res => {
-                console.log(res.data['history'])
+                console.log(res.data)
+                this.gamsInfo = res.data['gams_history']
+                console.log(this.gamsInfo)
                 this.history = []
-                let id = res.data['history'].length + 1
+
+                // let id = res.data['history'].length + 1
                 for (let item of res.data['history']) {
-                    id--
-                    item.id = id
+                    // id--
+                    // item.id = id
                     item.optimal_obj = Number(item.optimal_obj).toFixed(5)
                     item.relative_gap = Number(item.relative_gap).toFixed(5)
                     item.elapsed_time = Number(item.elapsed_time).toFixed(5)
