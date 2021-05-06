@@ -43,6 +43,7 @@
             <label for="compare">compare to</label>
             <select multiple v-model="solvers" id="compare" class="form-control">
                 <option>Select a solver</option>
+                <option v-if="problemData.name === 'dslr' ">shot</option>
                 <option v-if="problemData.name === 'dslr' ">bonmin</option>
                 <option v-if="problemData.name === 'dslr' ">knitro</option>
                 <option v-if="problemData.name === 'dslr' ">alphaecp</option>
