@@ -101,21 +101,21 @@ def dashboard(request, name = None):
 
             user_request = json.loads(request.body)
             solvers = user_request['solvers']
+            if solvers:
+                for solver in solvers:
+                    user_request['selected_solver'] = solver
 
-            for solver in solvers:
-                user_request['selected_solver'] = solver
+                    gams_solution = requests.post('http://127.0.0.1:5050', data = json.dumps(user_request))
 
-                gams_solution = requests.post('http://127.0.0.1:5050', data = json.dumps(user_request))
+                    gams_sol = json.loads(gams_solution.text)
 
-                gams_sol = json.loads(gams_solution.text)
+                    gams_info = GamsSolverInfo()
 
-                gams_info = GamsSolverInfo()
-
-                gams_info.instance = p
-                gams_info.gap = gams_sol['gap']
-                gams_info.solver_name = gams_sol['solver']
-                gams_info.time = gams_sol['time']
-                gams_info.status = gams_sol['status']
-                gams_info.save()
+                    gams_info.instance = p
+                    gams_info.gap = gams_sol['gap']
+                    gams_info.solver_name = gams_sol['solver']
+                    gams_info.time = gams_sol['time']
+                    gams_info.status = gams_sol['status']
+                    gams_info.save()
 
             return JsonResponse(solution_dict)

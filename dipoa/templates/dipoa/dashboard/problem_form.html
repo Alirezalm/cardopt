@@ -43,11 +43,12 @@
             <label for="compare">compare to</label>
             <select multiple v-model="solvers" id="compare" class="form-control">
                 <option>Select a solver</option>
-                <option>bonmin</option>
-                <option>bonminh</option>
-                <option>knitro</option>
-                <option>alphaecp</option>
-                <option>dicopt</option>
+                <option v-if="problemData.name === 'dslr' ">bonmin</option>
+                <option v-if="problemData.name === 'dslr' ">knitro</option>
+                <option v-if="problemData.name === 'dslr' ">alphaecp</option>
+                <option v-if="problemData.name === 'dslr' ">dicopt</option>
+{#                <option v-if="problemData.name === 'dsqcqp' ">gurobi</option>#}
+                <option v-if="problemData.name === 'dsqcqp' ">cplex</option>
             </select>
             <div class="modal-footer">
                 <button type="reset" class="btn btn-secondary">Reset</button>
